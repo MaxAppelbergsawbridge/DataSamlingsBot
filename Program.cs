@@ -7,57 +7,71 @@ namespace DataSamlingsBot
 {
     class Program
     {
+        List<Board> ListOfGames = new List<Board>();
         static void Main(string[] args)
         {
 
         }
-        static string simulator(string drag)
+        static void simulator(string drag)
         {//brädet 
-            string R = "";
-            string B = "";
-            string N = "";
-            string Q = "";
-            string K = "";
-            string P = "";
-            string O = "";
-            string[][] Bräd = new string[][]
-            {
-                {R,B,N,Q,K,N,B,R},
-                {P,P,P,P,P,P,P,P},
-                {O,O,O,O,O,O,O,O},
-                {O,O,O,O,O,O,O,O},
-                {O,O,O,O,O,O,O,O},
-                {O,O,O,O,O,O,O,O},
-                {P,P,P,P,P,P,P,P},
-                {R,B,N,Q,K,N,B,R},
-            };
+
+            //Follow instructions from the pgnreader
         }
         static void PGNReader()
         {
+            int z = 1;
+            int i = 1;
+            int y = 1;
             List<string> PgnSamling = new List<string>();
+            List<int> GameStartValues = new List<int>();
+            List<int> GameEndValues = new List<int>();
+            List<string> PlayedGames = new List<string>();
             //hitta filen
             PgnSamling = File.ReadAllLines("./Akobian.pgn").ToList();
             //hittar när partiet börjar och slutar
-            List<int> PartiStart = new List<int>();
-            List<int> PartiSlut = new List<int>();
-            for (var i = 0; i < PgnSamling.ToArray().Length; i = i + 10)
-            {
-                int RäkningarStart = PgnSamling.IndexOf("]");
-                int RäkningarSlut = PgnSamling.IndexOf("[");
-                PartiStart.Add(RäkningarStart);
-                PartiSlut.Add(RäkningarSlut);
-            }
             //Läsa partiet
-            //anse om svart eller vit har gjort ett drag
-            //hitta tomma platser
-            foreach (int var in PartiStart)
+            //how to find 1.and then 
+            //if partistart > partislut(behöver fortfarande använda read file)
+            foreach (var item in PgnSamling)
             {
-                foreach (int item in PartiSlut)
+                //Hitta 1. och resulat med hjälp av index 
+                i++;
+                PgnSamling.ToArray();
+                string line = PgnSamling[int.Parse(item)];
+                if (line == "1.")
                 {
-                    //find int? 
-                    //how to find 1.and then 
+                    z++;
+                    GameEndValues.Add(line.IndexOf("1.", 0, i));
+                }
+                else if (line == "0-1")
+                {
+                    y++;
+                    GameEndValues.Add(line.IndexOf("0-1", 0, i));
+                }
+                else if (line == "1-0")
+                {
+                    y++;
+                    GameEndValues.Add(line.IndexOf("1-0", 0, i));
+                }
+                else if (line == "1/2-1/2")
+                {
+                    y++;
+                    GameEndValues.Add(line.IndexOf("1/2-1/2", 0, i));
                 }
             }
+            //Gå igenom pgnsamling efter man vet vart partierna är
+            //1.=line 20 0-1=line 40 loops 20 times and adds the lines containing the moves to PlayedGames
+            for (var a = 0; a < PgnSamling.Count(); a++)
+            {
+                for (int b = GameStartValues.Count(); b < GameEndValues.Count(); b++)
+                {
+                    PlayedGames.Add(PgnSamling[b]);
+                }
+            }
+        }
+        static void Calculator()
+        {
+            Game statistic = new Game();
         }
     }
 }
